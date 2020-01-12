@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Plymouth_Pub.Models.Order>
+
+@{
+    ViewBag.Title = "MyOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MyOrder</h2>
+
+<table class="table">
+    <tr>
+        <th>Client Name</th>
+        <th>Table Number</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.GetUrderName()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableNumber)
+            </td>
+
+            <td>
+                @Html.ActionLink("Order Detail", "MyOrderDetail", new { id = item.Id }
+             , new { @class = "btn btn-default" })
+            </td>
+        </tr>
+    }
+</table>

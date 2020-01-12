@@ -1,0 +1,38 @@
+﻿@model List<Plymouth_Pub.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product List</h2>
+@if (ViewBag.ResultMessage != null)
+{
+    @Html.Label("info", (string)ViewBag.ResultMessage, new { @class = "text-info" })
+}
+<div class="card-header">
+    <i class="fas fa-table"></i>
+    Product
+    <a href="../Product/Create" class="btn btn-info pull-right fa fa-plus">Add New</a>
+</div>
+<table class="table">
+    <thead><tr><td>ID</td><td>Image</td><td>Name</td><td>Description</td><td>Price</td><td>Stock</td></tr></thead>
+    <tbody>
+        @foreach (var pd in this.Model)
+        {
+            <tr>
+                <td>@pd.Id</td>
+                <td><img src="~/images/@pd.DefaultImageURL" width="50" height="50" /></td>
+                <td>@pd.Name</td>
+                <td>@pd.Description</td>
+                <td>@pd.Price</td>
+                <td>@pd.Quantity</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = pd.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Delete", "Delete", new { id = pd.Id }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

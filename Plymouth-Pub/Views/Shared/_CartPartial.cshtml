@@ -1,0 +1,30 @@
+﻿@{
+    var currentCart = Plymouth_Pub.Models.Cart.Operation.GetCurrentCart();
+}
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        @String.Format("Total $ {0} ({1})", currentCart.TotalAmount, currentCart.Count)
+    <b class="caret"></b>    
+    </a>
+
+
+<ul class="dropdown-menu Cart" role="menu" aria-labelledby="CartDropDown">
+    @if (currentCart.Count > 0)
+    {
+        foreach (var cartitem in currentCart)
+        {
+            <li class="col-xs-12">
+                <span class="col-xs-10">@cartitem.Name $ @cartitem.Price x @cartitem.Quantity </span>
+                <span class="btn btn-danger col-xs-2" onclick="RemoveFromCart('@cartitem.Id')">
+                    x
+                </span>
+            </li>
+        }
+        <li class="divider"></li>
+        <li><a class="btn btn-default text-center" href="@Url.Action("Index","Order", new { })" >Check out</a></li>
+    }
+    else
+    {
+        <li><a class="btn btn-default text-center" href="#">No product in cart</a></li>
+    }
+</ul>
+

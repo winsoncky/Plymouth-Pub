@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Plymouth Pub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/MainLayOut.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("ready!");
+        });
+
+        function AddToCart(ProductId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddToCart", "Cart")',
+                data: { id: ProductId }
+            })
+            .done(function (msg) {
+                $('li#Cart').html(msg);
+            });
+        }
+
+        function RemoveFromCart(productId) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RemoveFromCart", "Cart")',
+                data: { id: productId }
+            })
+            .done(function (msg) {
+                $('li#Cart').html(msg);
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <img class="img-responsive" height="20%" width="100%" src="~/Images/header.jpg" alt="Picture">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Plymouth Pub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Product Management", "Index", "Product")</li>
+                    <li>@Html.ActionLink("User Management", "Index", "ManageUser")</li>
+                    <li>@Html.ActionLink("Order Management", "Index", "ManageOrder")</li>
+                    <li id="Cart">
+                        @Html.Partial("_CartPartial")
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Plymouth Pub</p>
+        </footer>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+    </ul>
+</body>
+</html>

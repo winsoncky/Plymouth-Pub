@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Plymouth_Pub.Models.OrderDetail>
+
+@{
+    var currentCart = Plymouth_Pub.Models.Cart.Operation.GetCurrentCart();
+}
+
+@{
+    ViewBag.Title = "MyOrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@String.Format("Order number : {0}", this.Model.First().Id)</h2>
+<hr />
+@Html.ActionLink("Back To Product List", "MyOrder", new { }, new { @class = "btn btn-default" })
+<table class="table">
+    <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+        </tr>
+        @String.Format("Total $ {0} ({1})", currentCart.TotalAmount, currentCart.Count)
+
+    }
+</table>
+@Html.ActionLink("Back To Product List", "MyOrder", new { }, new { @class = "btn btn-default" })
+
