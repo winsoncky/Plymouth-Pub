@@ -51,6 +51,7 @@ namespace Plymouth_Pub.Controllers
             ViewBag.ResultMessage = "Information not correct, please check.";
             return View();
         }
+
         public ActionResult Edit(int id)
         {
             using (Models.PlymouthEntities db = new Models.PlymouthEntities())
