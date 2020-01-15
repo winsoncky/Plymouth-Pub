@@ -1,28 +1,28 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using Plymouth_Pub.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Plymouth_Pub.Models;
 
 namespace Plymouth_Pub.Controllers
 {
-    public class ValuesController : ApiController
+    public class ProductsController : ApiController
     {
         private PlymouthEntities db = new PlymouthEntities();
-        [Route("api/GetProducts")]
 
+        // GET: api/Products
         public IQueryable<Product> GetProducts()
         {
             return db.Products;
         }
 
-        [Route("api/GetProduct/{id}")]
-
+        // GET: api/Products/5
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -35,40 +35,38 @@ namespace Plymouth_Pub.Controllers
             return Ok(product);
         }
 
-        [Route("api/PutProduct/{id}")]
+        // PUT: api/Products/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
         {
-
             if (!ModelState.IsValid)
             {
-                    return BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
-            if (id == product.Id)
-            {
-                return BadRequest();
-            }
-            db.Entry(product).State = EntityState.Modified;
 
-            try
+            using (var ctx = new PlymouthEntities())
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
+                var existingProduct = ctx.Products.Where(p => p.Id == product.Id).FirstOrDefault<Product>();
+
+                if (existingProduct != null)
                 {
-                    return NotFound();
+                    existingProduct.Name = product.Name;
+                    existingProduct.Price = product.Price;
+                    
+                   
+
+                    ctx.SaveChanges();
                 }
                 else
                 {
-                    throw;
+                    return NotFound();
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
 
+        // POST: api/Products
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -77,12 +75,29 @@ namespace Plymouth_Pub.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Products.Add(product);
-            db.SaveChanges();
+            using (var ctx = new PlymouthEntities())
+        {
+            ctx.Products.Add(new Product()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                PublishDate = product.PublishDate,
+                Status = product.Status,
+                DefaultImageId = product.DefaultImageId,
+                Quantity = product.Quantity,
+                DefaultImageURL = product.DefaultImageURL
 
-            return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
+            });
+
+            ctx.SaveChanges();
         }
 
+        return Ok();
+        }
+
+        // DELETE: api/Products/5
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
@@ -111,34 +126,5 @@ namespace Plymouth_Pub.Controllers
         {
             return db.Products.Count(e => e.Id == id) > 0;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        public void Post([FromBody]string value)
-        {
-        }
-
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        public void Delete(int id)
-        {
-        }
-
     }
 }
