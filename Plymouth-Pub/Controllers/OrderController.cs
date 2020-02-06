@@ -5,17 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 
+
 namespace Plymouth_Pub.Controllers
 {
     public class OrderController : Controller
     {
         // GET: Order
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
         }
-
         [HttpPost]
+        [Authorize()]
         public ActionResult Index(Models.OrderModel.Table postback)
         {
             if( this.ModelState.IsValid)

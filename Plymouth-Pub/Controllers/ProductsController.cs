@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Plymouth_Pub.Models;
+
 
 namespace Plymouth_Pub.Controllers
 {
@@ -70,30 +72,48 @@ namespace Plymouth_Pub.Controllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (var ctx = new PlymouthEntities())
+                {
+                    ctx.Products.Add(new Product()
+                    {
+
+                        Name = product.Name,
+                        Price = product.Price,
+                        Description = product.Description,
+                        CategoryId = product.CategoryId,
+                        PublishDate = product.PublishDate,
+                        Status = product.Status,
+                        DefaultImageId = product.DefaultImageId,
+                        Quantity = product.Quantity,
+                        DefaultImageURL = product.DefaultImageURL
+
+                    }) ;
+
+                    ctx.SaveChanges();
+                }
             }
 
-            using (var ctx = new PlymouthEntities())
-        {
-            ctx.Products.Add(new Product()
+            catch (DbEntityValidationException e)
             {
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                CategoryId = product.CategoryId,
-                PublishDate = product.PublishDate,
-                Status = product.Status,
-                DefaultImageId = product.DefaultImageId,
-                Quantity = product.Quantity,
-                DefaultImageURL = product.DefaultImageURL
-
-            });
-
-            ctx.SaveChanges();
-        }
-
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         return Ok();
         }
 

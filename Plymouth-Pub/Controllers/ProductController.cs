@@ -22,11 +22,13 @@ namespace Plymouth_Pub.Controllers
                 return View(result);
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Models.Product postback, HttpPostedFileBase File)
         {
             string Picture = null;
@@ -52,6 +54,7 @@ namespace Plymouth_Pub.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             using (Models.PlymouthEntities db = new Models.PlymouthEntities())
@@ -69,6 +72,7 @@ namespace Plymouth_Pub.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(Models.Product postback, HttpPostedFileBase file)
         {
@@ -105,7 +109,8 @@ namespace Plymouth_Pub.Controllers
                 return View(postback);
             }
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             using (Models.PlymouthEntities db = new Models.PlymouthEntities())

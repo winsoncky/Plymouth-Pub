@@ -6,6 +6,13 @@
     <edmx:Diagrams>
       <Diagram DiagramId="cfc251d4529c4210aabc4d94c889ff33" Name="Diagram1">
         <EntityTypeShape EntityType="Model.AspNetUsers" Width="2.25" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.C__MigrationHistory" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="1.5" PointX="3.75" PointY="5.25" />
+        <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="1.5" PointX="3.75" PointY="8" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Model.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

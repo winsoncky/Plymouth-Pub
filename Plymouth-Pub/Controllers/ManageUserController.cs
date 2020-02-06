@@ -8,7 +8,7 @@ namespace Plymouth_Pub.Controllers
 {
     public class ManageUserController : Controller
     {
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: ManageUser
         public ActionResult Index()
         {
@@ -25,6 +25,7 @@ namespace Plymouth_Pub.Controllers
                 return View(result);
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             using (Models.UserEntities db = new Models.UserEntities())
@@ -46,6 +47,7 @@ namespace Plymouth_Pub.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(Models.ManageUser postback)
         {
