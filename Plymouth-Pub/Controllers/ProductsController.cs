@@ -54,8 +54,13 @@ namespace Plymouth_Pub.Controllers
                 {
                     existingProduct.Name = product.Name;
                     existingProduct.Price = product.Price;
-                    
-                   
+                    existingProduct.Description = product.Description;
+                    existingProduct.CategoryId = product.CategoryId;
+                    existingProduct.PublishDate = product.PublishDate;
+                    existingProduct.Status = product.Status;
+                    existingProduct.DefaultImageId = product.DefaultImageId;
+                    existingProduct.Quantity = product.Quantity;
+                    existingProduct.DefaultImageURL = product.DefaultImageURL;
 
                     ctx.SaveChanges();
                 }
