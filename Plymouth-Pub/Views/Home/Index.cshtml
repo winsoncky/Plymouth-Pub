@@ -5,13 +5,14 @@
     ViewBag.Title = "Home Page";
 }
 
-
+<br />
+<br />
 <div class="row">
     @foreach (var product in this.Model)
     {
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <img class="ProductImg" src="~/Images/@product.DefaultImageURL" >
+                <img class="ProductImg" src="~/Images/@product.DefaultImageURL" width="220" height="220">
                 <div class="caption">
                     <h3>@product.Name</h3>
                     <p>@product.Description</p>

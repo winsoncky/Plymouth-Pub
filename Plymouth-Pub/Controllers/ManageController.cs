@@ -10,7 +10,7 @@ using Plymouth_Pub.Models;
 
 namespace Plymouth_Pub.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

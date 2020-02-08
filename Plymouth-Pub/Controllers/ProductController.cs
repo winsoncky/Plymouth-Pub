@@ -10,6 +10,7 @@ namespace Plymouth_Pub.Controllers
     public class ProductController : Controller
     {
         // GET: Product
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             List<Models.Product> result = new List<Models.Product>();

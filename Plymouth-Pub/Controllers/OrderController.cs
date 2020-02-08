@@ -11,13 +11,13 @@ namespace Plymouth_Pub.Controllers
     public class OrderController : Controller
     {
         // GET: Order
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        [Authorize()]
+        [Authorize]
         public ActionResult Index(Models.OrderModel.Table postback)
         {
             if( this.ModelState.IsValid)

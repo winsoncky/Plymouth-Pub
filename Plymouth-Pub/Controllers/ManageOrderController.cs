@@ -9,6 +9,7 @@ namespace Plymouth_Pub.Controllers
     public class ManageOrderController : Controller
     {
         // GET: ManageOrder
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             using (Models.PlymouthEntities db = new Models.PlymouthEntities())
