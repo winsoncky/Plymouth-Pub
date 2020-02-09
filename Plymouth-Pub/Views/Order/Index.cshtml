@@ -9,7 +9,7 @@
 
 <h2>Check Out</h2>
 <table class="table">
-    <thead><tr><td>ID</td><td>Image</td><td>Name</td><td>Description</td><td>Price</td><td>Stock</td></tr></thead>
+    <thead><tr><td>ID</td><td>Image</td><td>Name</td><td>Price</td><td>Quantity</td></tr></thead>
     <tbody>
         @foreach (var pd in cart)
         {
@@ -19,11 +19,12 @@
                 <td>@pd.Name</td>
                 <td>@pd.Price</td>
                 <td>@pd.Quantity</td>
-                <td>@pd.Amount</td>
             </tr>
-            <tr><td colspan="3"></td><td>Total</td><td>@cart.TotalAmount</td></tr>
+
 
         }
+        <tr><td colspan="3"></td><td>Total</td><td>@cart.TotalAmount</td></tr>
+
     </tbody>
     
 </table>

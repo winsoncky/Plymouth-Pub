@@ -18,6 +18,8 @@
         <th>Price</th>
         <th>Quantity</th>
     </tr>
+    @String.Format("Total $ {0} ({1})", currentCart.TotalAmount, currentCart.Count)
+
     @foreach (var item in Model)
     {
         <tr>
@@ -31,7 +33,6 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
         </tr>
-        @String.Format("Total $ {0} ({1})", currentCart.TotalAmount, currentCart.Count)
 
     }
 </table>

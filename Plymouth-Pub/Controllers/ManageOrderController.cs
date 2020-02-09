@@ -42,14 +42,19 @@ namespace Plymouth_Pub.Controllers
         {
             using (Models.PlymouthEntities db = new Models.PlymouthEntities())
             {
-                var result = (from s in db.OrderDetails where s.Id == id select s).FirstOrDefault();
+                var result = (from s in db.OrderDetails
+                              where s.OrderId == id
+                              select s).FirstOrDefault();
+                var result1 = (from s in db.Orders
+                              where s.Id == id
+                              select s).FirstOrDefault();
                 if (result != default(Models.OrderDetail))
                 {
                     db.OrderDetails.Remove(result);
-
+                    db.Orders.Remove(result1);
                     db.SaveChanges();
 
-                    TempData["ResultMessage"] = String.Format("Order {0} has been deleted succesfully.", result.Name);
+                    TempData["ResultMessage"] = String.Format("Order {0} has been deleted succesfully.", result.Id);
                     return RedirectToAction("Index");
                 }
                 else

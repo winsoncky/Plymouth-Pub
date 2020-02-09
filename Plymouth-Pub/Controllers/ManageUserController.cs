@@ -61,12 +61,36 @@ namespace Plymouth_Pub.Controllers
                     result.UserName = postback.UserName;
                     result.Email = postback.Email;
                     db.SaveChanges();
-                    TempData["ResultMessage"] = String.Format("User {0}] has been sucessfully edited.", postback.UserName);
+                    TempData["ResultMessage"] = String.Format("User {0} has been sucessfully edited.", postback.UserName);
                     return RedirectToAction("Index");
                 }
             }
-            TempData["ResultMessage"] = String.Format("User {0}] not exist, please try again.", postback.UserName);
+            TempData["ResultMessage"] = String.Format("User {0} not exist, please try again.", postback.UserName);
             return RedirectToAction("Index");
+        }
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(Models.ManageUser postback)
+        {
+            using (Models.UserEntities db = new Models.UserEntities())
+            {
+                var result = (from s in db.AspNetUsers
+                              where s.Id == postback.Id
+                              select s).FirstOrDefault();
+                if (result != default(Models.AspNetUsers))
+                {
+                    db.AspNetUsers.Remove(result);
+
+                    db.SaveChanges();
+
+                    TempData["ResultMessage"] = String.Format("User {0} has been sucessfully edited.", postback.UserName);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["ResultMessage"] = String.Format("User {0} not exist, please try again.", postback.UserName);
+                    return RedirectToAction("Index");
+                }
+            }
         }
     }
 }
